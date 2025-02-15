@@ -1,26 +1,20 @@
 ---
 title: collections.Append
-linkTitle: append
 description: Appends one or more elements to a slice and returns the resulting slice.
-categories: [functions]
+categories: []
 keywords: []
-menu:
-  docs:
-    parent: functions
-function:
+action:
   aliases: [append]
+  related:
+    - functions/collections/Merge
   returnType: any
   signatures:
-    - COLLECTION | collections.Append ELEMENT [ELEMENT]...
-    - COLLECTION | collections.Append COLLECTION
-relatedFunctions:
-  - collections.Append
-  - collections.Merge
-  - collections.Slice
+    - collections.Append ELEMENT [ELEMENT...] COLLECTION
+    - collections.Append COLLECTION1 COLLECTION2
 aliases: [/functions/append]
 ---
 
-This function appends all elements, excluding the last, to the last element. This allows [pipe](/getting-started/glossary/#pipeline) constructs as shown below.
+This function appends all elements, excluding the last, to the last element. This allows [pipe](g) constructs as shown below.
 
 Append a single element to a slice:
 
@@ -87,7 +81,7 @@ To create a slice of slices, starting with an empty slice:
 {{ $s = $s | append (slice (slice "a" "b")) }}
 {{ $s }} → [[a b]]
 
-{{ $s = $s | append  (slice "c" "d") }}
+{{ $s = $s | append (slice "c" "d") }}
 {{ $s }} → [[a b] [c d]]
 ```
 
