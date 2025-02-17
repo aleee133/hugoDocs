@@ -1,19 +1,16 @@
 ---
 title: debug.Timer
 description: Creates a named timer that reports elapsed time to the console.
-categories: [functions]
+categories: []
 keywords: []
-menu:
-  docs:
-    parent: functions
-function:
+action:
   aliases: []
+  related: []
   returnType: debug.Timer
   signatures: [debug.Timer NAME] 
-relatedFunctions: []
 ---
 
-{{< new-in "0.120.0" >}}
+{{< new-in 0.120.0 />}}
 
 Use the `debug.Timer` function to determine execution time for a block of code, useful for finding performance bottlenecks in templates.
 
@@ -36,5 +33,5 @@ hugo --logLevel info
 The results are displayed in the console at the end of the build. You can have as many timers as you want and if you don't stop them, they will be stopped at the end of build.
 
 ```text
-INFO  timer:  name TestSqrt total 12.429355ms
+INFO  timer:  name TestSqrt count 1002 duration 2.496017496s average 2.491035ms median 2.282291ms
 ```

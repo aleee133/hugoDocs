@@ -1,28 +1,21 @@
 ---
 title: collections.IsSet
-linkTitle: isset
 description: Reports whether the key exists within the collection.
-categories: [functions]
+categories: []
 keywords: []
-menu:
-  docs:
-    parent: functions
-function:
+action:
   aliases: [isset]
+  related:
+    - functions/go-template/if
+    - functions/go-template/with
   returnType: bool
   signatures: [collections.IsSet COLLECTION KEY]
-relatedFunctions:
-  - collections.Dictionary
-  - collections.Group
-  - collections.Index
-  - collections.IsSet
-  - collections.Where
 aliases: [/functions/isset]
 ---
 
 For example, consider this site configuration:
 
-{{< code-toggle file=hugo copy=false >}}
+{{< code-toggle file=hugo >}}
 [params]
 showHeroImage = false
 {{< /code-toggle >}}
@@ -47,6 +40,6 @@ But if the value of `showHeroImage` is `false`, we can't use either `if` or `wit
 {{ end }}
 ```
 
-{{% note %}}
+{{< note >}}
 When using the `isset` function you must reference the key using lower case. See the previous example.
-{{% /note %}}
+{{< /note >}}

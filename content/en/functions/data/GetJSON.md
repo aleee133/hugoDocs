@@ -1,21 +1,25 @@
 ---
 title: data.GetJSON
-linkTitle: getJSON
 description: Returns a JSON object from a local or remote JSON file, or an error if the file does not exist.
-categories: [functions]
+categories: []
 keywords: []
-menu:
-  docs:
-    parent: functions
-function:
+action:
   aliases: [getJSON]
+  related: []
   returnType: any
-  signatures: [data.GetJSON PATHPART...]
-relatedFunctions:
-  - data.GetCSV
-  - data.GetJSON
+  signatures: ['data.GetJSON INPUT... [OPTIONS]']
 toc: true
+expiryDate: 2026-02-19 # deprecated 2024-02-19 in v0.123.0
 ---
+
+{{< deprecated-in 0.123.0 >}}
+Instead, use [`transform.Unmarshal`] with a [global resource](g), [page resource](g), or [remote resource](g).
+
+See the [remote data example].
+
+[`transform.Unmarshal`]: /functions/transform/unmarshal/
+[remote data example]: /functions/resources/getremote/#remote-data
+{{< /deprecated-in >}}
 
 Given the following directory structure:
 
@@ -28,15 +32,19 @@ my-project/
 Access the data with either of the following:
 
 ```go-html-template
-{{ $data := getCSV "," "other-files/books.json" }}
-{{ $data := getCSV "," "other-files/" "books.json" }}
+{{ $data := getJSON "other-files/books.json" }}
+{{ $data := getJSON "other-files/" "books.json" }}
 ```
+
+{{< note >}}
+When working with local data, the file path is relative to the working directory.
+{{< /note >}}
 
 Access remote data with either of the following:
 
 ```go-html-template
-{{ $data := getCSV "," "https://example.org/books.json" }}
-{{ $data := getCSV "," "https://example.org/" "books.json" }}
+{{ $data := getJSON "https://example.org/books.json" }}
+{{ $data := getJSON "https://example.org/" "books.json" }}
 ```
 
 The resulting data structure is a JSON object:
@@ -56,9 +64,25 @@ The resulting data structure is a JSON object:
 ]
 ```
 
+## Options
+
+Add headers to the request by providing an options map:
+
+```go-html-template
+{{ $opts := dict "Authorization" "Bearer abcd" }}
+{{ $data := getJSON "https://example.org/books.json" $opts }}
+```
+
+Add multiple headers using a slice:
+
+```go-html-template
+{{ $opts := dict "X-List" (slice "a" "b" "c") }}
+{{ $data := getJSON "https://example.org/books.json" $opts }}
+```
+
 ## Global resource alternative
 
-Consider using `resources.Get` with [`transform.Unmarshal`] when accessing a global resource.
+Consider using the [`resources.Get`] function with [`transform.Unmarshal`] when accessing a global resource.
 
 ```text
 my-project/
@@ -68,11 +92,10 @@ my-project/
 ```
 
 ```go-html-template
-{{ $data := "" }}
+{{ $data := dict }}
 {{ $p := "data/books.json" }}
 {{ with resources.Get $p }}
-  {{ $opts := dict "delimiter" "," }}
-  {{ $data = . | transform.Unmarshal $opts }}
+  {{ $data = . | transform.Unmarshal }}
 {{ else }}
   {{ errorf "Unable to get resource %q" $p }}
 {{ end }}
@@ -80,7 +103,7 @@ my-project/
 
 ## Page resource alternative
 
-Consider using `.Resources.Get` with [`transform.Unmarshal`] when accessing a page resource.
+Consider using the [`Resources.Get`] method with [`transform.Unmarshal`] when accessing a page resource.
 
 ```text
 my-project/
@@ -92,11 +115,10 @@ my-project/
 ```
 
 ```go-html-template
-{{ $data := "" }}
+{{ $data := dict }}
 {{ $p := "books.json" }}
 {{ with .Resources.Get $p }}
-  {{ $opts := dict "delimiter" "," }}
-  {{ $data = . | transform.Unmarshal $opts }}
+  {{ $data = . | transform.Unmarshal }}
 {{ else }}
   {{ errorf "Unable to get resource %q" $p }}
 {{ end }}
@@ -104,21 +126,23 @@ my-project/
 
 ## Remote resource alternative
 
-Consider using `resources.GetRemote` with [`transform.Unmarshal`] for improved error handling when accessing a remote resource.
+Consider using the [`resources.GetRemote`] function with [`transform.Unmarshal`] when accessing a remote resource to improve error handling and cache control.
 
 ```go-html-template
-{{ $data := "" }}
-{{ $u := "https://example.org/books.json" }}
-{{ with resources.GetRemote $u }}
+{{ $data := dict }}
+{{ $url := "https://example.org/books.json" }}
+{{ with try (resources.GetRemote $url) }}
   {{ with .Err }}
     {{ errorf "%s" . }}
+  {{ else with .Value }}
+    {{ $data = . | transform.Unmarshal }}
   {{ else }}
-    {{ $opts := dict "delimiter" "," }}
-    {{ $data = . | transform.Unmarshal $opts }}
+    {{ errorf "Unable to get remote resource %q" $url }}
   {{ end }}
-{{ else }}
-  {{ errorf "Unable to get remote resource %q" $u }}
 {{ end }}
 ```
 
-[`transform.Unmarshal`]: /functions/transform/unmarshal
+[`Resources.Get`]: /methods/page/resources/
+[`resources.GetRemote`]: /functions/resources/getremote/
+[`resources.Get`]: /functions/resources/get/
+[`transform.Unmarshal`]: /functions/transform/unmarshal/

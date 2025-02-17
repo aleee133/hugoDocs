@@ -1,21 +1,16 @@
 ---
 title: collections.Complement
-linkTitle: complement
 description: Returns the elements of the last collection that are not in any of the others.
-categories: [functions]
+categories: []
 keywords: []
-menu:
-  docs:
-    parent: functions
-function:
+action:
   aliases: [complement]
+  related:
+    - functions/collections/Intersect
+    - functions/collections/SymDiff
+    - functions/collections/Union
   returnType: any
-  signatures: ['collections.Complement COLLECTION [COLLECTION]...']
-relatedFunctions:
-  - collections.Complement
-  - collections.Intersect
-  - collections.SymDiff
-  - collections.Union
+  signatures: ['collections.Complement COLLECTION [COLLECTION...]']
 aliases: [/functions/complement]
 ---
 
@@ -29,12 +24,11 @@ To find the elements within `$c3` that do not exist in `$c1` or `$c2`:
 {{ complement $c1 $c2 $c3 }} → [1 2]
 ```
 
-{{% note %}}
+{{< note >}}
 Make your code simpler to understand by using a [chained pipeline]:
 
 [chained pipeline]: https://pkg.go.dev/text/template#hdr-Pipelines
-{{% /note %}}
-
+{{< /note >}}
 
 ```go-html-template
 {{ $c3 | complement $c1 $c2 }} → [1 2]
@@ -61,11 +55,11 @@ To list everything except blog articles (`blog`) and frequently asked questions 
 {{ end }}
 ```
 
-{{% note %}}
+{{< note >}}
 Although the example above demonstrates the `complement` function, you could use the [`where`] function as well:
 
-[`where`]: /functions/collections/where
-{{% /note %}} 
+[`where`]: /functions/collections/where/
+{{< /note >}}
 
 ```go-html-template
 {{ range where site.RegularPages "Type" "not in" (slice "blog" "faqs") }}

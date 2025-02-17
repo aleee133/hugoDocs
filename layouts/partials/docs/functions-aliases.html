@@ -1,12 +1,12 @@
-{{- with .Params.function.aliases }}
+{{- with .Params.action.aliases }}
   {{- $label := "Alias" }}
   {{- if gt (len .) 1 }}
     {{- $label = "Aliases" }}
   {{- end }}
-  <h2 class="minor mb1 primary-color-dark">{{ $label }}</h2>
+  <p class="font-bold text-dark dark:text-light mt-2">{{ $label }}</p>
   {{- range . }}
-    <pre class="f5 mb4 ph3 pv2 bg-light-gray" style="border-left:4px solid #0594CB;">
+    <div class="font-sm font-mono ml-3 sm:ml-6 mt-0 sm:mt-1">
       {{- . -}}
-    </pre>
+    </div>
   {{- end }}
 {{- end -}}

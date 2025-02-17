@@ -1,19 +1,14 @@
 ---
 title: collections.Merge
-linkTitle: merge
 description: Returns the result of merging two or more maps.
-categories: [functions]
+categories: []
 keywords: []
-menu:
-  docs:
-    parent: functions
-function:
+action:
   aliases: [merge]
+  related:
+    - functions/collections/Append
   returnType: any
   signatures: [collections.Merge MAP MAP...]
-relatedFunctions:
-  - collections.Append
-  - collections.Merge
 aliases: [/functions/merge]
 ---
 
@@ -69,6 +64,6 @@ Example 4
 {{ $merged.z.a }} → huey
 ```
 
-{{% note %}}
+{{< note >}}
 Regardless of depth, merging only applies to maps. For slices, use [append](/functions/collections/append).
-{{% /note %}}
+{{< /note >}}
